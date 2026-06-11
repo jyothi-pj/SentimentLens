@@ -1,0 +1,159 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f1117;
+    color: #e0e0e0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1a1d27;
+    color: #fff;
+    font-size: 14px;
+}
+
+.search-box button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: none;
+    background: #6366f1;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-box button:hover {
+    background: #4f46e5;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+.error {
+    text-align: center;
+    padding: 20px;
+    color: #ef4444;
+    background: #1a1d27;
+    border-radius: 8px;
+}
+
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.card h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.card span {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.card.positive { background: #064e3b; }
+.card.negative { background: #7f1d1d; }
+.card.neutral { background: #78350f; }
+
+.review-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.review-card {
+    padding: 16px;
+    border-radius: 10px;
+    background: #1a1d27;
+    border: 1px solid #333;
+}
+
+.review-card.positive { border-left: 4px solid #10b981; }
+.review-card.negative { border-left: 4px solid #ef4444; }
+.review-card.neutral { border-left: 4px solid #f59e0b; }
+
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.positive .badge { background: #064e3b; color: #34d399; }
+.negative .badge { background: #7f1d1d; color: #fca5a5; }
+.neutral .badge { background: #78350f; color: #fbbf24; }
+
+.review-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.explain {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* Recommendation Section */
+
+.recommendation-box {
+    margin-top: 20px;
+    padding: 20px;
+    background: #1a1d27;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.recommendation-box h2 {
+    color: #6366f1;
+    margin-bottom: 10px;
+}
+
+.recommendation-box p {
+    color: #bbb;
+}

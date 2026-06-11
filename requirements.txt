@@ -1,0 +1,8 @@
+flask
+pandas
+scikit-learn
+beautifulsoup4
+requests
+joblib
+matplotlib
+playwright

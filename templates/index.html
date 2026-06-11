@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentimentLens - Review Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 SentimentLens</h1>
+        <p class="subtitle">AI-Powered Product Review Sentiment Analysis</p>
+
+        <div class="search-box">
+            <input type="text" id="urlInput" placeholder="Paste Amazon product URL here...">
+            <button onclick="analyze()" id="analyzeBtn">Analyze</button>
+        </div>
+
+        <div id="loading" style="display:none" class="loading">
+            ⏳ Scraping reviews & analyzing sentiment...
+        </div>
+
+        <div id="error" style="display:none" class="error"></div>
+
+        <div id="results" style="display:none">
+
+            <h2 id="productName"></h2>
+
+            <div class="summary-cards">
+                <div class="card positive">
+                    <h3>Positive</h3>
+                    <span id="posPercent">0%</span>
+                </div>
+                <div class="card negative">
+                    <h3>Negative</h3>
+                    <span id="negPercent">0%</span>
+                </div>
+                <div class="card neutral">
+                    <h3>Neutral</h3>
+                    <span id="neuPercent">0%</span>
+                </div>
+            </div>
+
+            <!-- AI Recommendation Section -->
+            <div class="recommendation-box">
+                <h2 id="recommendation"></h2>
+                <p id="reason"></p>
+            </div>
+
+            <h3>Individual Reviews (<span id="reviewCount">0</span>)</h3>
+            <div id="reviewCards" class="review-grid"></div>
+
+        </div>
+    </div>
+
+    <script>
+        async function analyze() {
+            const url = document.getElementById("urlInput").value.trim();
+            if (!url) return alert("Please enter a URL");
+
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("results").style.display = "none";
+            document.getElementById("error").style.display = "none";
+            document.getElementById("analyzeBtn").disabled = true;
+
+            try {
+                const res = await fetch("/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ url })
+                });
+
+                const data = await res.json();
+
+                if (data.error) {
+                    document.getElementById("error").textContent = data.error;
+                    document.getElementById("error").style.display = "block";
+                    return;
+                }
+
+                document.getElementById("productName").textContent = data.product_name;
+                document.getElementById("posPercent").textContent = data.summary.positive + "%";
+                document.getElementById("negPercent").textContent = data.summary.negative + "%";
+                document.getElementById("neuPercent").textContent = data.summary.neutral + "%";
+                document.getElementById("reviewCount").textContent = data.summary.total;
+
+                document.getElementById("recommendation").textContent =
+                    "Final Recommendation: " + data.recommendation;
+
+                document.getElementById("reason").textContent =
+                    "Reason: " + data.reason;
+
+                const grid = document.getElementById("reviewCards");
+                grid.innerHTML = data.results.map(r => `
+                    <div class="review-card ${r.sentiment}">
+                        <span class="badge">${r.sentiment.toUpperCase()} (${r.confidence}%)</span>
+                        <p>${r.review}</p>
+                        <small class="explain">AI Explanation: ${r.explanation.join(", ")}</small>
+                    </div>
+                `).join("");
+
+                document.getElementById("results").style.display = "block";
+
+            } catch (e) {
+                document.getElementById("error").textContent = "Analysis failed: " + e.message;
+                document.getElementById("error").style.display = "block";
+            } finally {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("analyzeBtn").disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
